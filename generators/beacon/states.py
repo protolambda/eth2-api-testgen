@@ -8,7 +8,7 @@ def gen_get_committees():
 
     # in epoch 135
     id_root_epoch_135 = '0xcc75ccd8f72395180e745f2c3429cb1c69e0eddedb8f1e15297ea9bcdbbb9172'
-    yield TestGen(input={'state_id': id_root_epoch_135, 'slot': 130*32}, path=f'/eth/v1/beacon/states/{id_root_epoch_135}/committees?slot={130*32}', code=200,
+    yield TestGen(input={'state_id': id_root_epoch_135, 'slot': 130*32}, path=f'/eth/v1/beacon/states/{id_root_epoch_135}/committees?slot={130*32}', code=400,
                   post=None, description=f'request committees of state with inconsistent slot-block query')
 
     yield TestGen(input={'state_id': id_root_epoch_135, 'slot': 135*32}, path=f'/eth/v1/beacon/states/{id_root_epoch_135}/committees?slot={135*32}', code=200,
@@ -132,7 +132,7 @@ def gen_get_validators():
                       path=f'/eth/v1/beacon/states/{id}/validators?status={validator_status}', code=200,
                       post=None, description=f'request all validators of state, filtered by single status')
 
-    statuses = ['pending', 'withdrawn']  # TODO lighthouse statuses are different than spec
+    statuses = ['waiting_for_eligibility', 'withdrawn']
     yield TestGen(input={'state_id': id, 'validator_statuses': statuses},
                   path=f'/eth/v1/beacon/states/{id}/validators?status={",".join(statuses)}', code=200,
                   post=None, description=f'request all validators of state, filtered by multiple validator statuses')

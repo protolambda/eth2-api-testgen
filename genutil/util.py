@@ -31,7 +31,7 @@ nonexistent_state_ids = [
 
 valid_validator_ids = [
     # valid
-    '0', '22000'
+    '0', '16000'
 ]
 
 invalid_validator_ids = [
@@ -44,25 +44,17 @@ nonexistent_validator_ids = [
     '0xa25da1827014cd3bc6e7b70f1375750935a16f00fbe186cc477c204d330cac7ee060b68587c5cdcfae937176a4dd2962'
 ]
 
-validator_statuses_full = [
-    'pending_initialized',
-    'pending_queued',
-    'active_ongoing',
-    'active_exiting',
-    'active_slashed',
-    'exited_unslashed',
-    'exited_slashed',
-    'withdrawal_possible',
-    'withdrawal_done',
-    'active',
-    'pending',
-    'exited',
-    'withdrawal',
-]
-
 validator_statuses = [
-    'pending',
+    'unknown',
+    'waiting_for_eligibility',
+    'waiting_for_finality',
+    'waiting_in_queue',
+    'standby_for_active',
     'active',
-    'exited',
+    'active_awaiting_voluntary_exit',
+    'active_awaiting_slashed_exit',
+    'exited_voluntarily',
+    'exited_slashed',
+    'withdrawable',
     'withdrawn',
 ]
