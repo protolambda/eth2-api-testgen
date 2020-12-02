@@ -13,7 +13,7 @@ def gen_get_header():
                       post=None, description=f'non-existent block header req')
 
 
-def gen_get_block_headers():
+def gen_get_headers():
     yield TestGen(input={}, path=f'/eth/v1/beacon/headers', code=200,
                   post=None, description=f'headers search, head slots by default')
 

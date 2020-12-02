@@ -19,13 +19,13 @@ def gen_get_committees():
                       post=None, description=f'request committees of state')
 
     id = 120
-    yield TestGen(input={'state_id': id, 'index': 1}, path=f'/eth/v1/beacon/states/{id}/committees?index=1', code=200,
+    yield TestGen(input={'state_id': id, 'committee_index': 1}, path=f'/eth/v1/beacon/states/{id}/committees?index=1', code=200,
                   post=None, description=f'request committees of state with committee index query')
 
     yield TestGen(input={'state_id': id, 'epoch': 100//32}, path=f'/eth/v1/beacon/states/{id}/committees?epoch={100//32}', code=200,
                   post=None, description=f'request committees of state with epoch query')
 
-    yield TestGen(input={'state_id': id, 'slot': 123, 'index': 1}, path=f'/eth/v1/beacon/states/{id}/committees?slot=123&index=1', code=200,
+    yield TestGen(input={'state_id': id, 'slot': 123, 'committee_index': 1}, path=f'/eth/v1/beacon/states/{id}/committees?slot=123&index=1', code=200,
                   post=None, description=f'request committees of state with combined query, and future slot')
 
     for id in invalid_state_ids:
@@ -65,24 +65,24 @@ def gen_get_state_root():
 def gen_get_validator():
     for val_id in invalid_validator_ids:
         for id in valid_state_ids:
-            yield TestGen(input={'state_id': id}, path=f'/eth/v1/beacon/states/{id}/validators/{val_id}', code=400,
+            yield TestGen(input={'state_id': id, 'validator_id': val_id}, path=f'/eth/v1/beacon/states/{id}/validators/{val_id}', code=400,
                           post=None, description=f'request invalid validator {val_id} of state')
 
     for val_id in nonexistent_validator_ids:
         for id in valid_state_ids:
             # TODO: debate if missing but valid validator id is 404 or 400
-            yield TestGen(input={'state_id': id}, path=f'/eth/v1/beacon/states/{id}/validators/{val_id}', code=404,
+            yield TestGen(input={'state_id': id, 'validator_id': val_id}, path=f'/eth/v1/beacon/states/{id}/validators/{val_id}', code=404,
                           post=None, description=f'request non-existent validator {val_id} of state')
 
     for val_id in valid_validator_ids:
         for id in valid_state_ids:
-            yield TestGen(input={'state_id': id}, path=f'/eth/v1/beacon/states/{id}/validators/{val_id}', code=200,
+            yield TestGen(input={'state_id': id, 'validator_id': val_id}, path=f'/eth/v1/beacon/states/{id}/validators/{val_id}', code=200,
                           post=None, description=f'request validator {val_id} of state')
         for id in invalid_state_ids:
-            yield TestGen(input={'state_id': id}, path=f'/eth/v1/beacon/states/{id}/validators/{val_id}', code=400,
+            yield TestGen(input={'state_id': id, 'validator_id': val_id}, path=f'/eth/v1/beacon/states/{id}/validators/{val_id}', code=400,
                           post=None, description=f'request validator {val_id} of invalid state')
         for id in nonexistent_state_ids:
-            yield TestGen(input={'state_id': id}, path=f'/eth/v1/beacon/states/{id}/validators/{val_id}', code=404,
+            yield TestGen(input={'state_id': id, 'validator_id': val_id}, path=f'/eth/v1/beacon/states/{id}/validators/{val_id}', code=404,
                           post=None, description=f'request validator {val_id} of unknown state')
 
 
