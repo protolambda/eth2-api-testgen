@@ -1,8 +1,9 @@
-from typing import TypedDict, Dict, Any, NamedTuple, Callable, Generator, Optional
+from typing import TypedDict, Dict, Any, NamedTuple, Callable, Iterator, Optional
 
 
 class TestGen(NamedTuple):
     input: Dict[str, Any]
+    code: int
     description: Optional[str]
     path: str
     post: Any
@@ -11,7 +12,7 @@ class TestGen(NamedTuple):
 class TestGenGroup(NamedTuple):
     name: str
     # can generate the test cases by calling this
-    gens_fn: Callable[[], Generator[TestGen]]
+    gens_fn: Callable[[], Iterator[TestGen]]
 
 
 class TestCase(TypedDict):

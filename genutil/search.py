@@ -1,10 +1,10 @@
-from typing import Generator, Any
+from typing import Iterator, Any
 from genutil.types import TestGenGroup
 from inspect import getmembers, isfunction
 
 
 # a python generator yielding groups of API testcase generators...
-def get_generators(src: Any) -> Generator[TestGenGroup]:
+def get_generators(src: Any) -> Iterator[TestGenGroup]:
     for (name, _) in getmembers(src, isfunction):
         if not name.startswith('gen_'):
             continue

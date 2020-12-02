@@ -5,9 +5,10 @@ valid_block_ids = [
 
 invalid_block_ids = [
     # invalid
-    'wut', '1000000000',
+    'wut',
 ]
 
 nonexistent_block_ids = [
+    '1000000000',
     '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
 ]
