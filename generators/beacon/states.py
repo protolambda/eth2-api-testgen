@@ -70,8 +70,8 @@ def gen_get_validator():
 
     for val_id in nonexistent_validator_ids:
         for id in valid_state_ids:
-            # missing validator ids don't cause 404
-            yield TestGen(input={'state_id': id}, path=f'/eth/v1/beacon/states/{id}/validators/{val_id}', code=400,
+            # TODO: debate if missing but valid validator id is 404 or 400
+            yield TestGen(input={'state_id': id}, path=f'/eth/v1/beacon/states/{id}/validators/{val_id}', code=404,
                           post=None, description=f'request non-existent validator {val_id} of state')
 
     for val_id in valid_validator_ids:
