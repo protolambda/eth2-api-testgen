@@ -37,7 +37,7 @@ def gen_get_committees():
                       post=None, description=f'request committees of unknown state')
 
 
-def _state_getter(name: str):
+def _state_getter(name: str, root_not_404=False):
     for id in valid_state_ids:
         yield TestGen(input={'state_id': id}, path=f'/eth/v1/beacon/states/{id}/{name}', code=200,
                       post=None, description=f'request {name} of state')
@@ -45,7 +45,7 @@ def _state_getter(name: str):
         yield TestGen(input={'state_id': id}, path=f'/eth/v1/beacon/states/{id}/{name}', code=400,
                       post=None, description=f'request {name} of invalid state')
     for id in nonexistent_state_ids:
-        yield TestGen(input={'state_id': id}, path=f'/eth/v1/beacon/states/{id}/{name}', code=404,
+        yield TestGen(input={'state_id': id}, path=f'/eth/v1/beacon/states/{id}/{name}', code=200 if ('0x' in id and root_not_404) else 404,
                       post=None, description=f'request {name} of unknown state')
 
 
@@ -58,7 +58,8 @@ def gen_get_fork():
 
 
 def gen_get_state_root():
-    yield from _state_getter('root')
+    # getting the state root by providing the state root cannot return 404
+    yield from _state_getter('root', root_not_404=True)
 
 
 def gen_get_validator():

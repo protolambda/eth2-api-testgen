@@ -31,7 +31,8 @@ nonexistent_state_ids = [
 
 valid_validator_ids = [
     # valid
-    '0', '16000'
+    '0', '16000',
+    '0xa25da1827014cd3bc6e7b70f1375750935a16f00fbe186cc477c204d330cac7ee060b68587c5cdcfae937176a4dd2962'
 ]
 
 invalid_validator_ids = [
@@ -41,7 +42,7 @@ invalid_validator_ids = [
 
 nonexistent_validator_ids = [
     '99999999',
-    '0xa25da1827014cd3bc6e7b70f1375750935a16f00fbe186cc477c204d330cac7ee060b68587c5cdcfae937176a4dd2962'
+    '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
 ]
 
 validator_statuses = [
