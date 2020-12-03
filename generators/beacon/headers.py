@@ -22,13 +22,13 @@ def gen_get_headers():
 
     yield TestGen(input={'slot': 100,
                          'parent_root': '0x629ae1587895043076500f4f5dcb202a47c2fc95d5b5c548cb83bc97bd2dbfe1'},
-                  path=f'/eth/v1/beacon/headers?slot=100&parent_root=0x629ae1587895043076500f4f5dcb202a47c2fc95d5b5c548cb83bc97bd2dbfe1',
+                  path=f'/eth/v1/beacon/headers?parent_root=0x629ae1587895043076500f4f5dcb202a47c2fc95d5b5c548cb83bc97bd2dbfe1&slot=100',
                   code=200,
                   post=None, description=f'headers search, slot and parent root filter')
 
     yield TestGen(input={'slot': 100,
                          'parent_root': '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'},
-                  path=f'/eth/v1/beacon/headers?slot=100&parent_root=0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                  path=f'/eth/v1/beacon/headers?parent_root=0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&slot=100',
                   code=404,
                   post=None, description=f'headers search, slot but unknown parent root filter')
 

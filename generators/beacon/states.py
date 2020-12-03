@@ -25,7 +25,7 @@ def gen_get_committees():
     yield TestGen(input={'state_id': id, 'epoch': 100//32}, path=f'/eth/v1/beacon/states/{id}/committees?epoch={100//32}', code=200,
                   post=None, description=f'request committees of state with epoch query')
 
-    yield TestGen(input={'state_id': id, 'slot': 123, 'committee_index': 1}, path=f'/eth/v1/beacon/states/{id}/committees?slot=123&index=1', code=200,
+    yield TestGen(input={'state_id': id, 'slot': 123, 'committee_index': 1}, path=f'/eth/v1/beacon/states/{id}/committees?index=1&slot=123', code=200,
                   post=None, description=f'request committees of state with combined query, and future slot')
 
     for id in invalid_state_ids:
@@ -97,23 +97,23 @@ def gen_get_validator_balances():
         yield TestGen(input={'state_id': id}, path=f'/eth/v1/beacon/states/{id}/validator_balances', code=404,
                       post=None, description=f'request all balances of unknown state')
 
-    id = 100
+    id = '100'
     yield TestGen(input={'state_id': id, 'val_ids': []}, path=f'/eth/v1/beacon/states/{id}/validator_balances?id=', code=200,
                   post=None, description=f'request no balances of valid state')
 
-    val_ids = [100, 102, 300]
+    val_ids = ['100', '102', '300']
     yield TestGen(input={'state_id': id, 'val_ids': val_ids},
-                  path=f'/eth/v1/beacon/states/{id}/validator_balances?id={",".join(map(str, val_ids))}', code=200,
+                  path=f'/eth/v1/beacon/states/{id}/validator_balances?id={",".join(val_ids)}', code=200,
                   post=None, description=f'request valid validator balances of valid state')
 
     val_ids = valid_validator_ids  # different types of validator ids in the same array!
     yield TestGen(input={'state_id': id, 'val_ids': val_ids},
-                  path=f'/eth/v1/beacon/states/{id}/validator_balances?id={",".join(map(str, val_ids))}', code=200,
+                  path=f'/eth/v1/beacon/states/{id}/validator_balances?id={",".join(val_ids)}', code=200,
                   post=None, description=f'request valid but mixed-type validator balances of valid state')
 
-    val_ids = [100, 102, 300, 9999999]
+    val_ids = ['100', '102', '300', '9999999']
     yield TestGen(input={'state_id': id, 'val_ids': val_ids},
-                  path=f'/eth/v1/beacon/states/{id}/validator_balances?id={",".join(map(str, val_ids))}', code=200,
+                  path=f'/eth/v1/beacon/states/{id}/validator_balances?id={",".join(val_ids)}', code=200,
                   post=None, description=f'request partially valid validator balances of valid state')
 
 
@@ -127,7 +127,7 @@ def gen_get_validators():
         yield TestGen(input={'state_id': id}, path=f'/eth/v1/beacon/states/{id}/validators', code=404,
                       post=None, description=f'request all validators of unknown state')
 
-    id = 3000  # some time where we have different validator statuses in the state
+    id = '3000'  # some time where we have different validator statuses in the state
     for validator_status in validator_statuses:
         yield TestGen(input={'state_id': id, 'validator_statuses': [validator_status]},
                       path=f'/eth/v1/beacon/states/{id}/validators?status={validator_status}', code=200,
@@ -138,23 +138,29 @@ def gen_get_validators():
                   path=f'/eth/v1/beacon/states/{id}/validators?status={",".join(statuses)}', code=200,
                   post=None, description=f'request all validators of state, filtered by multiple validator statuses')
 
-    id = 100
+    statuses = ['active', 'withdrawn']
+    val_ids = ['100', '102', '300']
+    yield TestGen(input={'state_id': id, 'validator_statuses': statuses, 'val_ids': val_ids},
+                  path=f'/eth/v1/beacon/states/{id}/validators?id={",".join(val_ids)}&status={",".join(statuses)}', code=200,
+                  post=None, description=f'request a few validators of state, filtered by multiple validator statuses')
+
+    id = '100'
     yield TestGen(input={'state_id': id, 'val_ids': []}, path=f'/eth/v1/beacon/states/{id}/validators?id=', code=200,
                   post=None, description=f'request no validators of valid state')
 
-    val_ids = [100, 102, 300]
+    val_ids = ['100', '102', '300']
     for id in valid_state_ids:
         yield TestGen(input={'state_id': id, 'val_ids': val_ids},
-                      path=f'/eth/v1/beacon/states/{id}/validator_balances?id={",".join(map(str, val_ids))}', code=200,
+                      path=f'/eth/v1/beacon/states/{id}/validator_balances?id={",".join(val_ids)}', code=200,
                       post=None, description=f'request valid validators of valid state')
 
-    id = 100
+    id = '100'
     val_ids = valid_validator_ids  # different types of validator ids in the same array!
     yield TestGen(input={'state_id': id, 'val_ids': val_ids},
-                  path=f'/eth/v1/beacon/states/{id}/validators?id={",".join(map(str, val_ids))}', code=200,
+                  path=f'/eth/v1/beacon/states/{id}/validators?id={",".join(val_ids)}', code=200,
                   post=None, description=f'request valid but mixed-type id validators of valid state')
 
-    val_ids = [100, 102, 300, 9999999]  # invalid parts are ignored in response
+    val_ids = ['100', '102', '300', '9999999']  # invalid parts are ignored in response
     yield TestGen(input={'state_id': id, 'val_ids': val_ids},
-                  path=f'/eth/v1/beacon/states/{id}/validators?id={",".join(map(str, val_ids))}', code=200,
+                  path=f'/eth/v1/beacon/states/{id}/validators?id={",".join(val_ids)}', code=200,
                   post=None, description=f'request partially valid validator ids of valid state')

@@ -5,7 +5,7 @@ def gen_get_pool_attestations():
     yield TestGen(input={}, path=f'/eth/v1/beacon/pool/attestations', code=200,
                   post=None, description=f'get all attestations')
 
-    yield TestGen(input={'slot': 100, 'committee_index': 1}, path=f'/eth/v1/beacon/pool/attestations?slot=100&committee_index=1', code=200,
+    yield TestGen(input={'slot': 100, 'committee_index': 1}, path=f'/eth/v1/beacon/pool/attestations?committee_index=1&slot=100', code=200,
                   post=None, description=f'get attestations by slot and committee_index')
 
     yield TestGen(input={'slot': 100}, path=f'/eth/v1/beacon/pool/attestations?slot=100', code=200,
