@@ -1,3 +1,5 @@
+from typing import List
+
 valid_block_ids = [
     # valid
     'genesis', 'head', 'finalized', '100', '0xb6c2a16aa85959604baba5344e869cabe1d096bb179d57e61fdca933f5ec7bf5'
@@ -59,3 +61,9 @@ validator_statuses = [
     'withdrawable',
     'withdrawn',
 ]
+
+
+def fmt_filter(items: List[str]) -> str:
+    """Filters use comma-separated values,
+    but these are encoded as query-value, and we are lazy, so we directly encode the commas"""
+    return "%2C".join(items)

@@ -1,4 +1,4 @@
-
+from typing import List
 from genutil import *
 
 
@@ -18,7 +18,7 @@ def gen_get_committees():
         yield TestGen(input={'state_id': id}, path=f'/eth/v1/beacon/states/{id}/committees', code=200,
                       post=None, description=f'request committees of state')
 
-    id = 120
+    id = '120'
     yield TestGen(input={'state_id': id, 'committee_index': 1}, path=f'/eth/v1/beacon/states/{id}/committees?index=1', code=200,
                   post=None, description=f'request committees of state with committee index query')
 
@@ -103,17 +103,17 @@ def gen_get_validator_balances():
 
     val_ids = ['100', '102', '300']
     yield TestGen(input={'state_id': id, 'val_ids': val_ids},
-                  path=f'/eth/v1/beacon/states/{id}/validator_balances?id={",".join(val_ids)}', code=200,
+                  path=f'/eth/v1/beacon/states/{id}/validator_balances?id={fmt_filter(val_ids)}', code=200,
                   post=None, description=f'request valid validator balances of valid state')
 
     val_ids = valid_validator_ids  # different types of validator ids in the same array!
     yield TestGen(input={'state_id': id, 'val_ids': val_ids},
-                  path=f'/eth/v1/beacon/states/{id}/validator_balances?id={",".join(val_ids)}', code=200,
+                  path=f'/eth/v1/beacon/states/{id}/validator_balances?id={fmt_filter(val_ids)}', code=200,
                   post=None, description=f'request valid but mixed-type validator balances of valid state')
 
     val_ids = ['100', '102', '300', '9999999']
     yield TestGen(input={'state_id': id, 'val_ids': val_ids},
-                  path=f'/eth/v1/beacon/states/{id}/validator_balances?id={",".join(val_ids)}', code=200,
+                  path=f'/eth/v1/beacon/states/{id}/validator_balances?id={fmt_filter(val_ids)}', code=200,
                   post=None, description=f'request partially valid validator balances of valid state')
 
 
@@ -135,13 +135,13 @@ def gen_get_validators():
 
     statuses = ['waiting_for_eligibility', 'withdrawn']
     yield TestGen(input={'state_id': id, 'validator_statuses': statuses},
-                  path=f'/eth/v1/beacon/states/{id}/validators?status={",".join(statuses)}', code=200,
+                  path=f'/eth/v1/beacon/states/{id}/validators?status={fmt_filter(statuses)}', code=200,
                   post=None, description=f'request all validators of state, filtered by multiple validator statuses')
 
     statuses = ['active', 'withdrawn']
     val_ids = ['100', '102', '300']
     yield TestGen(input={'state_id': id, 'validator_statuses': statuses, 'val_ids': val_ids},
-                  path=f'/eth/v1/beacon/states/{id}/validators?id={",".join(val_ids)}&status={",".join(statuses)}', code=200,
+                  path=f'/eth/v1/beacon/states/{id}/validators?id={fmt_filter(val_ids)}&status={fmt_filter(statuses)}', code=200,
                   post=None, description=f'request a few validators of state, filtered by multiple validator statuses')
 
     id = '100'
@@ -151,16 +151,16 @@ def gen_get_validators():
     val_ids = ['100', '102', '300']
     for id in valid_state_ids:
         yield TestGen(input={'state_id': id, 'val_ids': val_ids},
-                      path=f'/eth/v1/beacon/states/{id}/validator_balances?id={",".join(val_ids)}', code=200,
+                      path=f'/eth/v1/beacon/states/{id}/validators?id={fmt_filter(val_ids)}', code=200,
                       post=None, description=f'request valid validators of valid state')
 
     id = '100'
     val_ids = valid_validator_ids  # different types of validator ids in the same array!
     yield TestGen(input={'state_id': id, 'val_ids': val_ids},
-                  path=f'/eth/v1/beacon/states/{id}/validators?id={",".join(val_ids)}', code=200,
+                  path=f'/eth/v1/beacon/states/{id}/validators?id={fmt_filter(val_ids)}', code=200,
                   post=None, description=f'request valid but mixed-type id validators of valid state')
 
     val_ids = ['100', '102', '300', '9999999']  # invalid parts are ignored in response
     yield TestGen(input={'state_id': id, 'val_ids': val_ids},
-                  path=f'/eth/v1/beacon/states/{id}/validators?id={",".join(val_ids)}', code=200,
+                  path=f'/eth/v1/beacon/states/{id}/validators?id={fmt_filter(val_ids)}', code=200,
                   post=None, description=f'request partially valid validator ids of valid state')
